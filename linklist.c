@@ -23,7 +23,7 @@ int addNode(int data){
     struct Node *newNode = (struct Node*) malloc(sizeof(struct Node));
     newNode->value = data;
     newNode->next = NULL;
-    if (head == NULL)
+    if (head == NULL)   
     {
         head = newNode;
         tail = newNode;

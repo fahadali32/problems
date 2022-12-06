@@ -5,12 +5,83 @@ struct node{
     int value;
     struct node *next;
 };
-struct node *head = NULL;
-void addNode(int val){
-    struct node* temp = (struct node*) malloc(sizeof(struct node*)); 
-    head = temp;
-    temp->value = val;
-    temp = temp->next;
+struct node *head,*tail = NULL;
+void beginaddNode(int val){  
+    struct node *ptr,*temp;  
+    ptr = (struct node*)malloc(sizeof(struct node));      
+    if (head == NULL)
+    {
+        head = ptr;
+        ptr->value = val;
+    }else
+    {
+       ptr->value = val;
+       ptr->next = head;
+       head = ptr;
+    }  
+}
+void lastaddNode(int val){  
+      
+    struct node *ptr,*temp;  
+    ptr = (struct node*)malloc(sizeof(struct node));      
+    if(ptr == NULL)  
+    {  
+        printf("\nOVERFLOW");     
+    }  
+    else  
+    {  
+        ptr->value = val;  
+        if(head == NULL)  
+        {  
+            ptr -> next = NULL;  
+            head = ptr;  
+            
+        }  
+        else  
+        {  
+            temp = head;  
+            while (temp -> next != NULL)  
+            {  
+                temp = temp -> next;  
+            }  
+            temp->next = ptr;  
+            ptr->next = NULL;  
+            
+        }  
+    }
+}
+void deletebeginNode(){
+    struct node *ptr;
+    if (head == NULL) 
+    {
+        printf("cant delete ");
+    }else
+    {
+        ptr = head;
+        head = ptr->next;
+        free(ptr);
+    }   
+}
+void deletelastNode(){
+    struct node* temp = head;
+    struct node* previous; 
+    if (temp->next == NULL)
+    {
+        head = NULL;
+        free(temp);
+        return;
+    }else
+    {
+        while (temp->next != NULL)
+        {
+            previous = temp;
+            temp = temp->next;
+        }
+        previous->next = NULL;
+        //printf("%d deleted\n", temp->value);
+        free(temp);
+    }
+    
 }
 void printNode(){
     struct node* ptr;
@@ -30,9 +101,13 @@ void printNode(){
     
 }
 int main(){
-    addNode(1);
-    addNode(2);
-    addNode(3);
+    beginaddNode(1);
+    lastaddNode(2);
+    lastaddNode(3);
+    printNode();
+    deletebeginNode();
+    printNode();
+    deletelastNode();
     printNode();
     return 0;
 }
