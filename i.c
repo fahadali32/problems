@@ -1,37 +1,27 @@
-#include <stdio.h>
-#include <string.h>
-#include <math.h>
-#include <stdlib.h>
-
-int main() {
-  char num[10][10] = {
-                        "0",
-                         "one",
-                         "two",
-                         "three",
-                         "four",
-                         "five",
-                         "six",
-                         "seven",
-                         "eight",
-                         "nine"
-                     };
-  int a, b,i;
-  scanf("%d\n%d", &a, &b);
-  for(i=a; i<=b; i++){
-    if(i<=9) {
-        printf("%s\n",num[i]);
+#include<stdio.h>
+int top = -1; 
+int stack[5];
+int push(){
+    if (top == 4)
+    {
+        printf("overflow");
+    }else
+    {
+        int x;
+        printf("Enter element to be pushed into the stack: ");
+        scanf("%d", &x);
+        top+=1;
+        stack[top] = x;
     }
-    else{
-        if(i%2==0){ 
-            printf("%s","even");
-        }
-        else {
-            printf("%s","odd");
-        }
-        }
+    
+    
+}
+int main(){
+    push();
+    for (int i = 0; i < 4; i++)
+    {
+        printf("%d",stack[i]);
     }
-
-  
-  return 0;
+    
+    return 0;
 }

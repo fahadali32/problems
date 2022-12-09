@@ -97,15 +97,15 @@ void main()
        fp=fopen("information.txt","a"); //use can give any file name. Give the name with extention or without extention.
          
         printf("\n\t\t\tEnter First Name     : ");
-          scanf("%s",&info.first_name);
+          scanf("%s",info.first_name);
           printf("\n\t\t\tEnter Last Name     : ");
-          scanf("%s",&info.last_name);
+          scanf("%s",info.last_name);
           printf("\n\t\t\tEnter Roll-No       : ");
           scanf("%d",&info.roll_no);
           printf("\n\t\t\tEnter Class(course) : ");
-          scanf("%s",&info.Class);
+          scanf("%s",info.Class);
           printf("\n\t\t\tEnter Address       : ");
-          scanf("%s",&info.vill);
+          scanf("%s",info.vill);
           printf("\n\t\t\tEnter Percentage    : ");
           scanf("%f",&info.per);
           printf("\n\t\t\t______________________________\n");
@@ -130,7 +130,7 @@ void main()
 
  void studentrecord(){
    
-     FILE *fp;
+    FILE *fp;
 
     struct student info;
     fp=fopen("information.txt","r");
@@ -151,7 +151,7 @@ void main()
         printf("\n\t\t\t\t Roll NO       : %d",info.roll_no);
         printf("\n\t\t\t\t Class         : %s",info.Class);
         printf("\n\t\t\t\t Village/City  : %s",info.vill);
-        printf("\n\t\t\t\t Percentage    : %f%",info.per);
+        printf("\n\t\t\t\t Percentage    : %f",info.per);
         printf("\n\t\t\t\t ________________________________\n");
       
          }
@@ -161,7 +161,7 @@ void main()
   }
 
 void searchstudent(){
-       struct student info;
+      struct student info;
       FILE *fp;
       int roll_no,found=0;
      

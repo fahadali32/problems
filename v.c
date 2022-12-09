@@ -1,41 +1,28 @@
-// C Program to concatenate
-// two strings without using strcat
-
 #include <stdio.h>
+#include<stdlib.h>
+#include<string.h>
 
-int main()
+struct student
 {
+	char *name;
+	int roll;
+};
 
-	// Get the two Strings to be concatenated
-	char str1[100] = "Geeks", str2[100] = "World";
+int main () {
+   FILE *fp,*fp1;
+   struct student *s1 = (struct student*)malloc(sizeof(struct student*));
+   fp = fopen("file.txt","a");
+   s1->name = (char *)malloc(sizeof(char *));
+   strcpy(s1->name ,"Fahad Ali");
+   s1->roll = 1;
+   fwrite(&s1,sizeof(struct student),1,fp);
+   printf("%s %d",s1->name,s1->roll);
 
-	// Declare a new Strings
-	// to store the concatenated String
-	char str3[100];
-
-	int i = 0, j = 0;
-
-	printf("\nFirst string: %s", str1);
-	printf("\nSecond string: %s", str2);
-
-	// Insert the first string in the new string
-	while (str1[i] != '\0') {
-		str3[j] = str1[i];
-		i++;
-		j++;
-	}
-
-	// Insert the second string in the new string
-	i = 0;
-	while (str2[i] != '\0') {
-		str3[j] = str2[i];
-		i++;
-		j++;
-	}
-	str3[j] = '\0';
-
-	// Print the concatenated string
-	printf("\nConcatenated string: %s", str3);
-
-	return 0;
+   struct student *s2;
+   fp1 = fopen("file.txt","r");
+   fread(&s2,sizeof(struct student),1,fp1);
+   printf("%d",s2->roll);	
+   fclose(fp);
+   
+   return(0);
 }
