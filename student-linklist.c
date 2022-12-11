@@ -89,11 +89,20 @@ void printNode(){
     }
 }
 int main(){
-    addnode(1,11,"Fahad");
-    addnode(2,12,"Ali");
-    addnode(3,13,"Rahi");
-    addnode(5,15,"Fahim");
-    addnode(6,15,"Alif");
+    // addnode(1,11,"Fahad");
+    // addnode(2,12,"Ali");
+    // addnode(3,13,"Rahi");
+    // addnode(5,15,"Fahim");
+    // addnode(6,15,"Alif");
+    int roll,id;
+    char name[256];
+    for (int i = 0; i < 5; i++)
+    {
+        scanf("%d",&id);
+        scanf("%d",&roll);
+        scanf("%s",name);
+            
+    }
     
 
     addafterthirdNode(4,14,"Kodu");

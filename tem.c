@@ -1,128 +1,90 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-struct emp
-{
-    int empid;
-    char *name;
+
+// Define a structure to store data
+struct person {
+  char fname[256];
+  char lname[256];
+  char adress[256];
+  char course_name[256];
+  int roll;
+  float cgpa;
 };
- 
-int count = 0;
-void add_rec(char *a);
-void display(char *a);
-void update_rec(char *a);
- 
-void main(int argc, char *argv[])
-{
-    int choice;
-    while (1)
-    {
-        printf("MENU:\n");
-        printf("1.Add a record\n");
-        printf("2.Display the file\n");
-        printf("3.Update the record\n");
-        printf("Enter your choice:");
-        scanf("%d", &choice);
- 
-        switch(choice)
-        {
-        case 1:
-            add_rec(argv[1]);
-            break;
-        case 2:
-            display(argv[1]);
-            break;
-        case 3:
-            update_rec(argv[1]);
-            break;
-        case 4:
-            exit(0);
-        default:
-            printf("Wrong choice!!!\nEnter the correct choice\n");
+
+int main() {
+    // Create a structure variable to store data
+    struct person data;
+
+    // Open a file in append mode
+   //  FILE *file = fopen("data.txt", "a");
+   //  if (file == NULL) {
+   //      printf("Error opening file!\n");
+   //      exit(1);
+   //  }
+
+   //  // Read data from the user
+   //  printf("Enter name: ");
+   //  scanf("%s", data.fname);
+   //  printf("Enter age: ");
+   //  scanf("%d", &data.roll);
+   //  printf("Enter height: ");
+   //  scanf("%f", &data.cgpa);
+
+   //  // Append the data to the file
+   //  fwrite(&data, sizeof(struct Data), 1, file);
+
+   //  // Close the file
+   //  fclose(file);
+    FILE *file;
+    // Open the file in read mode
+    file = fopen("data.csv", "r");
+    if (file == NULL) {
+        printf("Error opening file!\n");
+        exit(1);
+    }
+
+    // Read the data from the file and store it in an array
+   //  int temp_num = 0;
+   //  while (fread(&data, sizeof(struct person), 1, file)) {
+   //      temp_num++;
+   //  }
+   //  printf("%d",temp_num);
+    
+   //struct person data_array[100];
+   
+   // allocate memory for n students using dynamic memory allocation
+    //struct person *data_array = (struct person*)malloc(5 * sizeof(struct person));
+   fseek(file, sizeof(struct person)-1, SEEK_END);
+   int n = ftell(file) / sizeof(struct person);
+    
+   struct person data_array[100];
+    printf("%d",n);
+    int num_data = 0;
+    while (fread(&data_array[num_data], sizeof(struct person), 1, file)) {
+        num_data++;
+    }
+
+    // Sort the data using a simple bubble sort algorithm
+    int i, j;
+    for (i = 0; i < num_data - 1; i++) {
+        for (j = 0; j < num_data - i - 1; j++) {
+            if (data_array[j].roll > data_array[j + 1].roll) {
+                // Swap the data
+                struct person temp = data_array[j];
+                data_array[j] = data_array[j + 1];
+                data_array[j + 1] = temp;
+            }
         }
     }
-}
- 
-void add_rec(char *a)
-{
-    FILE *fp;
-    fp = fopen(a, "a+");
-    struct emp *temp = (struct emp *)malloc(sizeof(struct emp));
-    temp->name = (char *)malloc(50*sizeof(char));
-    if (fp == NULL)
-        printf("Error!!!");
-    else
-    {
-        printf("Enter the employee id\n");
-        scanf("%d", &temp->empid);
-        fwrite(&temp->empid, sizeof(int), 1, fp);
-        printf("enter the employee name\n");
-        scanf(" %[^\n]s", temp->name);
-        fwrite(temp->name, 50, 1, fp);
-        count++;
+
+    // Print the sorted data
+    for (i = 0; i < num_data; i++) {
+        printf("Name: %s, Age: %d, Height: %.2f\n", data_array[i].fname, data_array[i].roll, data_array[i].cgpa);
     }
-    fclose(fp);
-    free(temp);
-    free(temp->name);
-}
- 
-void display(char *a)
-{
-    FILE *fp;
-    char ch;
-    int rec = count;
-    fp = fopen(a, "r");
-    struct emp *temp = (struct emp *)malloc(sizeof(struct emp));
-    temp->name = (char *)malloc(50*sizeof(char));
-    if (fp == NULL)
-        printf("Error!!");
-    else
-    {
-        while (rec)
-        {
-            fread(&temp->empid, sizeof(int), 1, fp);
-            printf("%d", temp->empid);
-            fread(temp->name, 50, 1, fp);
-            printf(" %s\n", temp->name);
-            rec--;
-        }
-    }
-    fclose(fp);
-    free(temp);
-    free(temp->name);
-}
- 
-void update_rec(char *a)
-{
-    FILE *fp;
-    char ch, name[5];
-    int rec, id, c;
-    fp = fopen(a, "r+");
-    struct emp *temp = (struct emp *)malloc(sizeof(struct emp));
-    temp->name = (char *)malloc(50*sizeof(char));
-    printf("Enter the employee id to update:\n");
-    scanf("%d", &id);
-    fseek(fp, 0, 0);
-    rec = count;
-    while (rec)
-    {
-        fread(&temp->empid, sizeof(int), 1, fp);
-        printf("%d", temp->empid);
-        if (id == temp->empid)
-        {
-            printf("Enter the employee name to be updated");
-            scanf(" %[^\n]s", name);
-            c = fwrite(name, 50, 1, fp);
-            break;
-        }
-        fread(temp->name, 50, 1, fp);
-        rec--;
-    }
-    if (c == 1)
-        printf("Record updated\n");
-    else
-        printf("Update not successful\n");
-    fclose(fp);
-    free(temp);
-    free(temp->name);
+
+    // Close the file
+    fclose(file);
+
+    return 0;
 }

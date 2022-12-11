@@ -69,7 +69,7 @@ void updateStudent(){
     FILE *fp,*fp1;
     struct person info;
     char another;
-    int roll;
+    int roll,found = 0;
     do{
       system(clear);
       fp=fopen("./data.csv","rb");
@@ -85,27 +85,104 @@ void updateStudent(){
       while(fread(&info,sizeof(struct person),1,fp)){
         if (info.roll != roll)
         {
-           fwrite(&info,sizeof(struct person),1,fp1);
-        } 
+          fwrite(&info,sizeof(struct person),1,fp1);
+        } else
+        {
+          found = 1;
+        }
+        
       }
       
-      struct person up;
+      if (found == 1)
+      {
+        struct person up;
       
-      printf("Enter the first name: ");
-      scanf("%s",up.fname);
-      printf("Enter the last name: ");
-      scanf("%s",up.lname);
-      printf("Enter the adress: ");
-      scanf("%s",up.adress);
-      printf("Enter the course name: ");
-      scanf("%s",up.course_name);
-      printf("Enter the roll: ");
-      scanf("%d",&up.roll);
-      printf("Enter the cgpa: ");
-      scanf("%f",&up.cgpa);
+        printf("Enter the first name: ");
+        scanf("%s",up.fname);
+        printf("Enter the last name: ");
+        scanf("%s",up.lname);
+        printf("Enter the adress: ");
+        scanf("%s",up.adress);
+        printf("Enter the course name: ");
+        scanf("%s",up.course_name);
+        printf("Enter the roll: ");
+        scanf("%d",&up.roll);
+        printf("Enter the cgpa: ");
+        scanf("%f",&up.cgpa);
 
-      //struct person up = {"Ahad","Ali","Rangpur","CSE",3,4};
-      fwrite(&up,sizeof(struct person),1,fp1);
+        fwrite(&up,sizeof(struct person),1,fp1);
+        remove("./data.csv");
+        rename("./temp.csv","./data.csv");
+        fclose(fp);
+        fclose(fp1);
+      }
+      else
+      {
+        printf("Record not found\n");
+      }
+      
+      
+      printf("Wana go back (y/n)");
+      scanf("%s",&another); 
+    }
+    while (another=='n'||another=='N');
+     
+}
+
+void deleteStudent(){
+    FILE *fp,*fp1;
+    struct person info;
+    char another;
+    int roll,found = 0;
+    do{
+      system(clear);
+      fp=fopen("./data.csv","rb");
+      fp1=fopen("./temp.csv","a");
+      
+      if (fp == NULL)
+      {
+        fprintf(stderr,"can't open file\n");
+        exit(0);
+      }
+      printf("Enter the roll: ");
+      scanf("%d",&roll);
+
+      while(fread(&info,sizeof(struct person),1,fp)){
+        if (info.roll != roll)
+        {
+          found = 1;
+          fwrite(&info,sizeof(struct person),1,fp1);
+          found = 0;
+        }
+        else
+        {
+          printf("Record deleted successfully\n");
+          found = -1;
+        }
+        
+      }
+      
+      if (info.roll < 0)
+      {
+        printf("Record not exists\n");
+      }
+      
+      if (found == 1)
+      {
+        printf("Student record not found\n");
+      }else if (found == -1)
+      {
+        /* code */
+      }
+      else
+      {
+        printf("Record not exists\n");
+      }
+      
+      
+      
+      
+      
       remove("./data.csv");
       rename("./temp.csv","./data.csv");
       fclose(fp);
@@ -176,15 +253,33 @@ void display(){
       }else{
           //printf("");
       }
-        
-      while(fread(&info,sizeof(struct person),1,fp)){
-        printf("Name: %s %s\n",info.fname,info.lname);
-        printf("Adress: %s\n",info.adress);
-        printf("Course: %s\n",info.course_name);
-        printf("Roll: %d\n",info.roll);
-        printf("CGPA:%.2f\n",info.cgpa);
-        printf("\n"); 
+      struct person data_array[sizeof(struct person)];
+      int num_data = 0;
+      while (fread(&data_array[num_data], sizeof(struct person), 1, fp)) {
+          num_data++;
       }
+
+      int i, j;
+      for (i = 0; i < num_data - 1; i++) {
+          for (j = 0; j < num_data - i - 1; j++) {
+              if (data_array[j].roll > data_array[j + 1].roll) {
+                  struct person temp = data_array[j];
+                  data_array[j] = data_array[j + 1];
+                  data_array[j + 1] = temp;
+              }
+          }
+      }
+
+      for (i = 0; i < num_data; i++) {
+        printf("\t\tName  : %s %s\n",data_array[i].fname,data_array[i].lname);
+        printf("\t\tAdress: %s\n",data_array[i].adress);
+        printf("\t\tCourse: %s\n",data_array[i].course_name);
+        printf("\t\tRoll  : %d\n",data_array[i].roll);
+        printf("\t\tCGPA  :%.2f\n",data_array[i].cgpa);
+        printf("\n");
+        
+      } 
+      
       fclose(fp);
       
       printf("Wana go back (y/n)");
@@ -222,6 +317,9 @@ int main(){
         system(clear);
         break;
       case 3:
+        system(clear);
+        deleteStudent();
+        system(clear);
         break;
       case 4:
         system(clear);
@@ -234,7 +332,7 @@ int main(){
         system(clear);
         break;
       case 6:
-        exit;
+        exit(1);
       default:
         printf("Please select the right option\n");
         break;

@@ -1,243 +1,101 @@
- #include"stdio.h"
- #include<stdlib.h>
- 
-void addstudent();
-void studentrecord();
-void searchstudent();
-void delete();
+#include <stdio.h>
+#include <stdlib.h>
 
-  struct student {
-    char first_name[20];
-    char last_name[20];
-    int roll_no;
-    char Class[10];
-     char vill[20];
-    float per;
+// structure to store data
+struct person {
+char fname[20];
+char lname[20];
+int roll;
+float cgpa;
 };
 
-void main()
+int compare(const void *a, const void *b)
 {
-    
-    int choice;
-    while(choice!=5){
-        
-    printf("\t\t\t=====STUDENT DATABASE MANAGEMENT SYSTEM=====");
-    printf("\n\n\n\t\t\t\t     1. Add Student\n");
-    printf("\t\t\t\t     2. Students Records\n");
-    printf("\t\t\t\t     3. Search Student\n");
-    printf("\t\t\t\t     4. Delete Student\n");
-    printf("\t\t\t\t     5. Exit\n");
-    printf("\t\t\t\t    _____________________\n");
-    printf("\t\t\t\t     ");
-    scanf("%d",&choice);
-    
-   switch(choice){
-       case 1:
-          
-          addstudent();
-          
-         break;
-     case 2: 
-        
-        
-          studentrecord();
-          printf("\t\t\t\t  press any key to exit..... \n");
-          
-          
-          
-         break;
-        
-     case 3:
-         
-         searchstudent();
-         printf("\n\t\t\t\t  Press any key to exit.......\n");
-         
-          
-          
-        
-         break;
-  
-     case 4:
-         
-        delete();
-        printf("\n\t\t\t\tPress any key to exit.......\n");
-        
-        
-        break;
-     case 5:
-          
-          printf("\n\t\t\t\tThank you, for used this software.\n\n");
-          exit(0);
-        break;
-        
-     default :
-         
-         
-         printf("\n\t\t\t\t\tEnter a valid number\n\n");
-         printf("\t\t\t\tPress any key to continue.......");
-         
-        
-         break;
-        }
-  
-        }
-  
-        
-     }
-    
- void addstudent(){
-   
-     char another;
-     FILE *fp;
-     int n,i;
-     struct student info;
-   do{
-       //clrscr();
-       printf("\t\t\t\t=======Add Students Info=======\n\n\n"); 
-       fp=fopen("information.txt","a"); //use can give any file name. Give the name with extention or without extention.
-         
-        printf("\n\t\t\tEnter First Name     : ");
-          scanf("%s",info.first_name);
-          printf("\n\t\t\tEnter Last Name     : ");
-          scanf("%s",info.last_name);
-          printf("\n\t\t\tEnter Roll-No       : ");
-          scanf("%d",&info.roll_no);
-          printf("\n\t\t\tEnter Class(course) : ");
-          scanf("%s",info.Class);
-          printf("\n\t\t\tEnter Address       : ");
-          scanf("%s",info.vill);
-          printf("\n\t\t\tEnter Percentage    : ");
-          scanf("%f",&info.per);
-          printf("\n\t\t\t______________________________\n");
-       
-      if(fp==NULL){
-        fprintf(stderr,"can't open file");
-    }else{
-        printf("\t\t\tRecord stored successfuly\n");
-    }
-    
-    fwrite(&info, sizeof(struct student), 1, fp); 
-    fclose(fp);
-    
-    printf("\t\t\tYou want to add another record?(y/n) : ");
-    
-    
-    scanf("%s",&another);
-    
-    
-   }while(another=='y'||another=='Y');
+// typecast void pointers to struct pointers
+struct person *p1 = (struct person*)a;
+struct person *p2 = (struct person*)b;
+
+
+// compare cgpa of two students
+return (p1->roll - p2->roll);
 }
 
- void studentrecord(){
-   
-    FILE *fp;
+int main()
+{
+FILE *fp;
+struct person *stud;
+int i, n;
 
-    struct student info;
-    fp=fopen("information.txt","r");
-    
-     printf("\t\t\t\t=======STUDENTS RECORD=======\n\n\n");
-      
-    if(fp==NULL){
-        
-        fprintf(stderr,"can't open file\n");
-        exit(0);
-    }else{
-        printf("\t\t\t\tRECORDS :\n");
-        printf("\t\t\t\t___________\n\n");
-    }
-        
-        while(fread(&info,sizeof(struct student),1,fp)){
-        printf("\n\t\t\t\t Student Name  : %s %s",info.first_name,info.last_name);
-        printf("\n\t\t\t\t Roll NO       : %d",info.roll_no);
-        printf("\n\t\t\t\t Class         : %s",info.Class);
-        printf("\n\t\t\t\t Village/City  : %s",info.vill);
-        printf("\n\t\t\t\t Percentage    : %f",info.per);
-        printf("\n\t\t\t\t ________________________________\n");
-      
-         }
-        fclose(fp);
-        
-      
-  }
 
-void searchstudent(){
-      struct student info;
-      FILE *fp;
-      int roll_no,found=0;
-     
-    fp=fopen("information.txt","r");
-    printf("\t\t\t\t=======SEARCH STUDENTS RECORD=======\n\n\n");
-    printf("\t\t\tEnter the roll no : ");
-   
-    scanf("%d",&roll_no);
-     
-    
-    
-    while(fread(&info,sizeof(struct student),1,fp)>0){
-         
-        if(info.roll_no==roll_no){
-           
-        found=1;
-        printf("\n\n\t\t\tStudent Name : %s %s",info.first_name,info.last_name);
-        printf("\n\t\t\tRoll NO        : %d",info.roll_no);
-        printf("\n\t\t\tClass          : %s",info.Class);
-        printf("\n\t\t\tAddress        : %s",info.vill);
-        printf("\n\t\t\tPercentage     : %f",info.per);
-        printf("\n\t\t\t______________________________________\n");
-  
-         }
-       
-    }
-     
-    if(!found){
-       printf("\n\t\t\tRecord not found\n");
-    }
-  
-    fclose(fp);
-    
-    
+// // open file in append mode
+// fp = fopen("students.bin", "ab");
+// if (fp == NULL)
+// {
+//     printf("Error opening file!\n");
+//     exit(1);
+// }
+
+// // input number of students
+// printf("Enter number of students: ");
+// scanf("%d", &n);
+
+// // allocate memory for n students using dynamic memory allocation
+// stud = (struct person*)malloc(n * sizeof(struct person));
+
+// // input data for each student
+// for (i = 0; i < n; i++)
+// {
+//     printf("Enter data for student %d\n", i + 1);
+//     printf("Enter first name: ");
+//     scanf("%s", (stud + i)->fname);
+//     printf("Enter last name: ");
+//     scanf("%s", (stud + i)->lname);
+//     printf("Enter roll number: ");
+//     scanf("%d", &(stud + i)->roll);
+//     printf("Enter CGPA: ");
+//     scanf("%f", &(stud + i)->cgpa);
+// }
+
+// // write data to file in append mode
+// fwrite(stud, sizeof(struct person), n, fp);
+
+// // close file
+// fclose(fp);
+
+// open file in read mode
+fp = fopen("students.bin", "rb");
+if (fp == NULL)
+{
+    printf("Error opening file!\n");
+    exit(1);
+}
+
+// read data from file
+fread(stud, sizeof(struct person), n, fp);
+
+// sort data based on cgpa using qsort function
+qsort(stud, n, sizeof(struct person), compare);
+
+// print sorted data
+system("clear");
+printf("Sorted data:\n");
+for (i = 0; i < n; i++)
+{
+    printf("First Name: %s\n", (stud + i)->fname);
+    printf("Last Name: %s\n", (stud + i)->lname);
+    printf("Roll Number: %d\n", (stud + i)->roll);
+    printf("CGPA: %.2f\n", (stud + i)->cgpa);
+}
+
+// free allocated memory
+//free(stud);
+
+// close file
+fclose(fp);
+
+return 0;
 }
 
 
- void delete(){
-      struct student info;
-      FILE *fp, *fp1;
-     
-       
-    int roll_no,found=0;
-    
-       printf("\t\t\t\t=======DELETE STUDENTS RECORD=======\n\n\n");
-    fp=fopen("information.txt","r");
-    fp1=fopen("temp.txt","w");
-    printf("\t\t\t\tEnter the roll no : ");
-    scanf("%d",&roll_no);
-    if(fp==NULL){
-         fprintf(stderr,"can't open file\n");
-         exit(0);
-      }
-    
-    while(fread(&info,sizeof(struct student),1,fp)){
-        if(info.roll_no == roll_no){
-          
-            found=1;
-        
-        }else{
-           fwrite(&info,sizeof(struct student),1,fp1);
-        }
-  
-    }
-     fclose(fp);
-     fclose(fp1);
 
-    if(!found){
-          printf("\n\t\t\t\tRecord not found\n");
-        }
-      if(found){ 
-    remove("information.txt");
-        rename("temp.txt","information.txt");
-        
-        printf("\n\t\t\t\tRecord deleted succesfully\n");
-        }
- 
-  
-  }
+
