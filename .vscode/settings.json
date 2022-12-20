@@ -1,6 +1,8 @@
 {
   "files.associations": {
-    "array": "c"
+    "array": "c",
+    "random": "c",
+    "ctype.h": "c"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "/usr/bin/gcc",

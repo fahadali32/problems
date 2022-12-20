@@ -35,7 +35,6 @@ void addStudent(){
     printf("Enter First Name: ");
     scanf("%s",info.fname);
     
-    //strcpy(info.fname,fname);
     printf("Enter Last Name: ");
     scanf("%s",info.lname);
     printf("Enter Adress: ");

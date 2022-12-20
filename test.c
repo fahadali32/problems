@@ -1,101 +1,59 @@
 #include <stdio.h>
-#include <stdlib.h>
 
-// structure to store data
-struct person {
-char fname[20];
-char lname[20];
-int roll;
-float cgpa;
-};
+#define M 3
+#define N 7
+#define P 3
 
-int compare(const void *a, const void *b)
-{
-// typecast void pointers to struct pointers
-struct person *p1 = (struct person*)a;
-struct person *p2 = (struct person*)b;
+int main(void) {
+    // Declare and initialize matrices a1 and a2
+    int a1[M][N] = {{13, 6, 15, 9, 5, 15, 0}, {25, 1, 21, 1, 0, 15, 9}, {0, 22, 18, 20, 6, 4, 19}};
+    int a2[P][M] = {{1, -1, 1}, {1, 1, 0}, {1, 2, 1}};
 
 
-// compare cgpa of two students
-return (p1->roll - p2->roll);
+    // Declare matrix a3 to store the result of the multiplication
+    int a3[M][N];
+    printf("Matrix a1:\n");
+for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+        printf("%d ", a1[i][j]);
+    }
+    printf("\n");
 }
 
-int main()
-{
-FILE *fp;
-struct person *stud;
-int i, n;
-
-
-// // open file in append mode
-// fp = fopen("students.bin", "ab");
-// if (fp == NULL)
-// {
-//     printf("Error opening file!\n");
-//     exit(1);
-// }
-
-// // input number of students
-// printf("Enter number of students: ");
-// scanf("%d", &n);
-
-// // allocate memory for n students using dynamic memory allocation
-// stud = (struct person*)malloc(n * sizeof(struct person));
-
-// // input data for each student
-// for (i = 0; i < n; i++)
-// {
-//     printf("Enter data for student %d\n", i + 1);
-//     printf("Enter first name: ");
-//     scanf("%s", (stud + i)->fname);
-//     printf("Enter last name: ");
-//     scanf("%s", (stud + i)->lname);
-//     printf("Enter roll number: ");
-//     scanf("%d", &(stud + i)->roll);
-//     printf("Enter CGPA: ");
-//     scanf("%f", &(stud + i)->cgpa);
-// }
-
-// // write data to file in append mode
-// fwrite(stud, sizeof(struct person), n, fp);
-
-// // close file
-// fclose(fp);
-
-// open file in read mode
-fp = fopen("students.bin", "rb");
-if (fp == NULL)
-{
-    printf("Error opening file!\n");
-    exit(1);
+printf("Matrix a2:\n");
+for (int i = 0; i < P; i++) {
+    for (int j = 0; j < M; j++) {
+        printf("%d ", a2[i][j]);
+    }
+    printf("\n");
+}
+printf("Matrix a3:\n");
+for (int i = 0; i < M; i++) {
+    for (int j = 0; j < N; j++) {
+        printf("%d ", a3[i][j]);
+    }
+    printf("\n");
 }
 
-// read data from file
-fread(stud, sizeof(struct person), n, fp);
+    // Perform matrix multiplication
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            a3[i][j] = 0;
+            for (int k = 0; k < P; k++) {
+                printf("a %d %d",a1[i][k],i);
+                a3[i][j] += a1[i][k] * a2[k][j];
+            }
+            printf("\n");
+        }
+    }
 
-// sort data based on cgpa using qsort function
-qsort(stud, n, sizeof(struct person), compare);
+    // Print the result
+    for (int i = 0; i < M; i++) {
+        for (int j = 0; j < N; j++) {
+            printf("%d ", a3[i][j]);
+        }
+        printf("\n");
+    }
 
-// print sorted data
-system("clear");
-printf("Sorted data:\n");
-for (i = 0; i < n; i++)
-{
-    printf("First Name: %s\n", (stud + i)->fname);
-    printf("Last Name: %s\n", (stud + i)->lname);
-    printf("Roll Number: %d\n", (stud + i)->roll);
-    printf("CGPA: %.2f\n", (stud + i)->cgpa);
+    return 0;
 }
-
-// free allocated memory
-//free(stud);
-
-// close file
-fclose(fp);
-
-return 0;
-}
-
-
-
-
