@@ -1,82 +1,53 @@
 #include <stdio.h>
+#include <math.h>
+#include <stdlib.h>
 
-// function to get matrix elements entered by the user
-void getMatrixElements(int matrix[][10], int row, int column) {
+#define SIZE 10
 
-   printf("\nEnter elements: \n");
-
-   for (int i = 0; i < row; ++i) {
-      for (int j = 0; j < column; ++j) {
-         printf("Enter a%d%d: ", i + 1, j + 1);
-         scanf("%d", &matrix[i][j]);
-      }
-   }
+int main()
+{
+float a[SIZE][SIZE], x[SIZE], ratio;
+int i, j, k, n;
+printf("Enter number of unknowns: ");
+scanf("%d", &n);
+for (i = 1; i <= n; i++)
+{
+for (j = 1; j <= n + 1; j++)
+{
+printf("a[%d][%d] = ", i, j);
+scanf("%f", &a[i][j]);
 }
-
-// function to multiply two matrices
-void multiplyMatrices(int first[][10],
-                      int second[][10],
-                      int result[][10],
-                      int r1, int c1, int r2, int c2) {
-
-   // Initializing elements of matrix mult to 0.
-   for (int i = 0; i < r1; ++i) {
-      for (int j = 0; j < c2; ++j) {
-         result[i][j] = 0;
-      }
-   }
-
-   // Multiplying first and second matrices and storing it in result
-   for (int i = 0; i < r1; ++i) {
-      for (int j = 0; j < c2; ++j) {
-         for (int k = 0; k < c1; ++k) {
-            result[i][j] += first[i][k] * second[k][j];
-         }
-      }
-   }
 }
-
-// function to display the matrix
-void display(int result[][10], int row, int column) {
-
-   printf("\nOutput Matrix:\n");
-   for (int i = 0; i < row; ++i) {
-      for (int j = 0; j < column; ++j) {
-         printf("%d  ", result[i][j]);
-         if (j == column - 1)
-            printf("\n");
-      }
-   }
+for (i = 1; i <= n - 1; i++)
+{
+if (a[i][i] == 0.0)
+{
+printf("Mathematical Error!");
+exit(0);
 }
-
-int main() {
-   int first[10][10], second[10][10], result[10][10], r1, c1, r2, c2;
-   printf("Enter rows and column for the first matrix: ");
-   scanf("%d %d", &r1, &c1);
-   printf("Enter rows and column for the second matrix: ");
-   scanf("%d %d", &r2, &c2);
-
-   // Taking input until
-   // 1st matrix columns is not equal to 2nd matrix row
-   while (c1 != r2) {
-      printf("Error! Enter rows and columns again.\n");
-      printf("Enter rows and columns for the first matrix: ");
-      scanf("%d%d", &r1, &c1);
-      printf("Enter rows and columns for the second matrix: ");
-      scanf("%d%d", &r2, &c2);
-   }
-
-   // get elements of the first matrix
-   getMatrixElements(first, r1, c1);
-
-   // get elements of the second matrix
-   getMatrixElements(second, r2, c2);
-
-   // multiply two matrices.
-   multiplyMatrices(first, second, result, r1, c1, r2, c2);
-
-   // display the result
-   display(result, r1, c2);
-
-   return 0;
+for (j = i + 1; j <= n; j++)
+{
+ratio = a[j][i] / a[i][i];
+for (k = 1; k <= n + 1; k++)
+{
+a[j][k] = a[j][k] - ratio * a[i][k];
+}
+}
+}
+x[n] = a[n][n + 1] / a[n][n];
+for (i = n - 1; i >= 1; i--)
+{
+x[i] = a[i][n + 1];
+for (j = i + 1; j <= n; j++)
+{
+x[i] = x[i] - a[i][j] * x[j];
+}
+x[i] = x[i] / a[i][i];
+}
+printf("\nSolution:\n");
+for (i = 1; i <= n; i++)
+{
+printf("a[%d] = %0.3f\n", i, x[i]);
+}
+return (0);
 }
