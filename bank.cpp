@@ -78,7 +78,7 @@ void updateUser()
 
     if (fp == NULL)
     {
-      fprintf(stderr, "can't open file\n");
+      cout << "can't open file\n";
       exit(0);
     }
     cout << "Enter the account: ";
@@ -142,10 +142,10 @@ void deleteUser()
 
     if (fp == NULL)
     {
-      fprintf(stderr, "can't open file\n");
+      cout << "can't open file\n";
       exit(0);
     }
-    printf("Enter the account: ");
+    cout << "Enter the account: ";
     cin >> account;
 
     while (fread(&info, sizeof(struct person), 1, fp))
@@ -170,7 +170,7 @@ void deleteUser()
 
     if (found == 1)
     {
-      printf("Student record not found\n");
+      cout << "Student record not found\n";
     }
     else if (found == -1)
     {
@@ -178,7 +178,7 @@ void deleteUser()
     }
     else
     {
-      printf("Record not exists\n");
+      cout << "Record not exists\n" ;
     }
 
     remove("./bank.csv");
@@ -186,7 +186,7 @@ void deleteUser()
     fclose(fp);
     fclose(fp1);
 
-    printf("Wana go back (y/n)");
+    cout << "Wana go back (y/n)";
     cin >> another;
   } while (another == 'n' || another == 'N');
 }
@@ -223,7 +223,7 @@ void search()
     }
     if (!found)
     {
-      cout << "Student record not found\n";
+      cout << "User record not found\n";
     }
 
     fclose(fp);
@@ -243,7 +243,7 @@ void display()
     fp = fopen("./bank.csv", "rb");
     system(clear);
 
-    cout << "\t\t\t\t___STUDENTS RECORD___\n\n\n";
+    cout << "\t\t\t\t___BANK USER RECORD___\n\n\n";
     if (fp == NULL)
     {
       cout << "can't open file\n";
@@ -299,7 +299,7 @@ int main()
   {
     cout << "\tBank Management System\n 1.Add New User\n 2.Update User Data\n 3.Delete User Record\n 4.Search User Data\n 5.Show All Users\n 6.Exit\n";
     
-    printf("\nPlease select the option: ");
+    cout << "\nPlease select the option: ";
     cin >> option;
 
     switch (option)
