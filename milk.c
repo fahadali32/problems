@@ -14,9 +14,9 @@ struct person{
   char fname[256];
   char lname[256];
   char adress[256];
-  char course_name[256];
-  int roll;
-  float cgpa;
+  int code;
+  int mobile;
+  float amount;
 };
 
 int found = 0;
@@ -39,14 +39,14 @@ void addStudent(){
     scanf("%s",info.lname);
     printf("Enter Adress: ");
     scanf("%s",info.adress);
-    printf("Enter Course Name: ");
-    scanf("%s",info.course_name);
-    printf("Enter Roll: ");
-    scanf("%d",&info.roll);
-    printf("Enter CGPA: ");
-    scanf("%f",&info.cgpa);
+    printf("Enter code Name: ");
+    scanf("%d",&info.code);
+    printf("Enter Mobile Number: ");
+    scanf("%d",&info.mobile);
+    printf("Enter amount: ");
+    scanf("%f",&info.amount);
     
-    fp = fopen("./data.csv","a");
+    fp = fopen("./milk.csv","a");
     
     fwrite(&info, sizeof(struct person), 1, fp); 
     fclose(fp);
@@ -68,21 +68,21 @@ void updateStudent(){
     FILE *fp,*fp1;
     struct person info;
     char another;
-    int roll,found = 0;
+    int code,found = 0;
     do{
       system(clear);
-      fp=fopen("./data.csv","rb");
-      fp1=fopen("./temp.csv","a");
+      fp=fopen("./milk.csv","rb");
+      fp1=fopen("./milk_temp.csv","a");
       
       if (fp == NULL)
       {
         fprintf(stderr,"can't open file\n");
         exit(0);
       }
-      printf("Enter the roll: ");
-      scanf("%d",&roll);
+      printf("Enter the code: ");
+      scanf("%d",&code);
       while(fread(&info,sizeof(struct person),1,fp)){
-        if (info.roll != roll)
+        if (info.code != code)
         {
           fwrite(&info,sizeof(struct person),1,fp1);
         } else
@@ -102,16 +102,16 @@ void updateStudent(){
         scanf("%s",up.lname);
         printf("Enter the adress: ");
         scanf("%s",up.adress);
-        printf("Enter the course name: ");
-        scanf("%s",up.course_name);
-        printf("Enter the roll: ");
-        scanf("%d",&up.roll);
-        printf("Enter the cgpa: ");
-        scanf("%f",&up.cgpa);
+        printf("Enter the code name: ");
+        scanf("%d",&up.code);
+        printf("Enter the mobile: ");
+        scanf("%d",&up.mobile);
+        printf("Enter the amount: ");
+        scanf("%f",&up.amount);
 
         fwrite(&up,sizeof(struct person),1,fp1);
-        remove("./data.csv");
-        rename("./temp.csv","./data.csv");
+        remove("./milk.csv");
+        rename("./milk_temp.csv","./milk.csv");
         fclose(fp);
         fclose(fp1);
       }
@@ -132,22 +132,22 @@ void deleteStudent(){
     FILE *fp,*fp1;
     struct person info;
     char another;
-    int roll,found = 0;
+    int code,found = 0;
     do{
       system(clear);
-      fp=fopen("./data.csv","rb");
-      fp1=fopen("./temp.csv","a");
+      fp=fopen("./milk.csv","rb");
+      fp1=fopen("./milk_temp.csv","a");
       
       if (fp == NULL)
       {
         fprintf(stderr,"can't open file\n");
         exit(0);
       }
-      printf("Enter the roll: ");
-      scanf("%d",&roll);
+      printf("Enter the mobile: ");
+      scanf("%d",&code);
 
       while(fread(&info,sizeof(struct person),1,fp)){
-        if (info.roll != roll)
+        if (info.code != code)
         {
           found = 1;
           fwrite(&info,sizeof(struct person),1,fp1);
@@ -161,7 +161,7 @@ void deleteStudent(){
         
       }
       
-      if (info.roll < 0)
+      if (info.code < 0)
       {
         printf("Record not exists\n");
       }
@@ -182,8 +182,8 @@ void deleteStudent(){
       
       
       
-      remove("./data.csv");
-      rename("./temp.csv","./data.csv");
+      remove("./milk.csv");
+      rename("./milk_temp.csv","./milk.csv");
       fclose(fp);
       fclose(fp1);
 
@@ -198,26 +198,26 @@ void search(){
     FILE *fp;
     struct person info;
     char another;
-    int roll;
+    int code;
     do{
       system(clear);
-      fp=fopen("./data.csv","rb");
+      fp=fopen("./milk.csv","rb");
       if (fp == NULL)
       {
         fprintf(stderr,"can't open file\n");
         exit(0);
       }
-      printf("Enter the roll: ");
-      scanf("%d",&roll);
+      printf("Enter the code: ");
+      scanf("%d",&code);
       while(fread(&info,sizeof(struct person),1,fp)){
-        if (info.roll == roll)
+        if (info.code == code)
         {
           found = 1;
           printf("\t\tName: %s %s \n",info.fname,info.lname);
           printf("\t\tAdress: %s\n",info.adress);
-          printf("\t\tCourse: %s\n",info.course_name);
-          printf("\t\tRoll: %d\n",info.roll);
-          printf("\t\tCGPA:%.2f\n",info.cgpa);
+          printf("\t\tcode: %d\n",info.code);
+          printf("\t\tmobile: %d\n",info.mobile);
+          printf("\t\tamount:%.2f\n",info.amount);
           printf("\n"); 
         }
       }
@@ -242,7 +242,7 @@ void display(){
     
     do
     {
-      fp=fopen("./data.csv","rb");
+      fp=fopen("./milk.csv","rb");
       system(clear);
       
       printf("\t\t\t\t___STUDENTS RECORD___\n\n\n");
@@ -261,7 +261,7 @@ void display(){
       int i, j;
       for (i = 0; i < num_data - 1; i++) {
           for (j = 0; j < num_data - i - 1; j++) {
-              if (data_array[j].roll > data_array[j + 1].roll) {
+              if (data_array[j].mobile > data_array[j + 1].mobile) {
                   struct person temp = data_array[j];
                   data_array[j] = data_array[j + 1];
                   data_array[j + 1] = temp;
@@ -272,9 +272,9 @@ void display(){
       for (i = 0; i < num_data; i++) {
         printf("\t\tName  : %s %s\n",data_array[i].fname,data_array[i].lname);
         printf("\t\tAdress: %s\n",data_array[i].adress);
-        printf("\t\tCourse: %s\n",data_array[i].course_name);
-        printf("\t\tRoll  : %d\n",data_array[i].roll);
-        printf("\t\tCGPA  :%.2f\n",data_array[i].cgpa);
+        printf("\t\tcode: %d\n",data_array[i].code);
+        printf("\t\tmobile  : %d\n",data_array[i].mobile);
+        printf("\t\tamount  :%.2f\n",data_array[i].amount);
         printf("\n");
         
       } 
@@ -292,12 +292,12 @@ int main(){
   int option;
   do
   {
-    char *message = "\tStudent Management System\n"
-                  "1.Add Students\n"
-                  "2.Update Students Data\n"
-                  "3.Delete Students Record\n"
-                  "4.Search Students Data\n"
-                  "5.Show All Students\n"
+    char *message = "\tMilk Management System\n"
+                  "1.Add Member\n"
+                  "2.Update Member Data\n"
+                  "3.Delete Member Record\n"
+                  "4.Search Member Data\n"
+                  "5.Show All Members\n"
                   "6.Exit\n";                  
     printf("%s",message);
 
