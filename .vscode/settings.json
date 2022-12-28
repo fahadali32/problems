@@ -5,7 +5,8 @@
     "ctype.h": "c",
     "future": "c",
     "system_error": "c",
-    "regex": "c"
+    "regex": "c",
+    "iostream": "cpp"
   },
   "C_Cpp_Runner.msvcBatchPath": "",
   "C_Cpp_Runner.cCompilerPath": "/usr/bin/gcc",

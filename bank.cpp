@@ -31,21 +31,20 @@ void addUser()
     int header = 0;
 
     system(clear);
-    printf("\t.....Add User.....\n\n");
+    cout << "\t.....Add User.....\n\n";
 
-    printf("Enter First Name: ");
-    scanf("%s", info.fname);
-
-    printf("Enter Last Name: ");
-    scanf("%s", info.lname);
-    printf("Enter Adress: ");
-    scanf("%s", info.adress);
-    printf("Enter Nominee Name: ");
-    scanf("%s", info.nominee);
-    printf("Enter account: ");
-    scanf("%d", &info.account);
-    printf("Enter amount: ");
-    scanf("%f", &info.amount);
+    cout << "Enter First Name: ";
+    cin >> info.fname;
+    cout << "Enter Last Name: ";
+    cin >> info.lname;
+    cout << "Enter Adress: ";
+    cin >> info.adress;
+    cout << "Enter Nominee Name: ";
+    cin >> info.nominee;
+    cout << "Enter account: ";
+    cin >> info.account;
+    cout << "Enter amount: ";
+    cin >> info.amount;
 
     fp = fopen("./bank.csv", "a");
 
@@ -53,15 +52,15 @@ void addUser()
     fclose(fp);
     if (fp == NULL)
     {
-      printf("Can't open the file\n");
+      cout << "Can't open the file\n";
     }
     else
     {
-      printf("Record stored successfuly\n");
+      cout << "Record stored successfuly\n";
     }
 
-    printf("Add another student (y/n)");
-    scanf("%s", &another);
+    cout << "Add another student (y/n)";
+    cin >> another;
   } while (another == 'y' || another == 'Y');
 }
 
@@ -82,8 +81,8 @@ void updateUser()
       fprintf(stderr, "can't open file\n");
       exit(0);
     }
-    printf("Enter the account: ");
-    scanf("%d", &account);
+    cout << "Enter the account: ";
+    cin >> account;
     while (fread(&info, sizeof(struct person), 1, fp))
     {
       if (info.account != account)
@@ -100,18 +99,18 @@ void updateUser()
     {
       struct person up;
 
-      printf("Enter the first name: ");
-      scanf("%s", up.fname);
-      printf("Enter the last name: ");
-      scanf("%s", up.lname);
-      printf("Enter the adress: ");
-      scanf("%s", up.adress);
-      printf("Enter the nominee name: ");
-      scanf("%s", up.nominee);
-      printf("Enter the account: ");
-      scanf("%d", &up.account);
-      printf("Enter the amount: ");
-      scanf("%f", &up.amount);
+      cout << "Enter the first name: ";
+      cin >> up.fname;
+      cout << "Enter the last name: ";
+      cin >> up.lname;
+      cout << "Enter the adress: ";
+      cin >> up.adress;
+      cout << "Enter the nominee name: ";
+      cin >> up.nominee;
+      cout << "Enter the account: ";
+      cin >> up.account;
+      cout << "Enter the amount: ";
+      cin >> up.amount;
 
       fwrite(&up, sizeof(struct person), 1, fp1);
       remove("./bank.csv");
@@ -121,11 +120,11 @@ void updateUser()
     }
     else
     {
-      printf("Record not found\n");
+      cout << "Record not found\n";
     }
 
-    printf("Wana go back (y/n)");
-    scanf("%s", &another);
+    cout << "Wana go back (y/n)";
+    cin >> another;
   } while (another == 'n' || another == 'N');
 }
 
@@ -147,7 +146,7 @@ void deleteUser()
       exit(0);
     }
     printf("Enter the account: ");
-    scanf("%d", &account);
+    cin >> account;
 
     while (fread(&info, sizeof(struct person), 1, fp))
     {
@@ -159,14 +158,14 @@ void deleteUser()
       }
       else
       {
-        printf("Record deleted successfully\n");
+        cout << "Record deleted successfully\n";
         found = -1;
       }
     }
 
     if (info.account < 0)
     {
-      printf("Record not exists\n");
+      cout << "Record not exists\n";
     }
 
     if (found == 1)
@@ -175,7 +174,7 @@ void deleteUser()
     }
     else if (found == -1)
     {
-      /* code */
+      
     }
     else
     {
@@ -188,7 +187,7 @@ void deleteUser()
     fclose(fp1);
 
     printf("Wana go back (y/n)");
-    scanf("%s", &another);
+    cin >> another;
   } while (another == 'n' || another == 'N');
 }
 
@@ -204,32 +203,32 @@ void search()
     fp = fopen("./bank.csv", "rb");
     if (fp == NULL)
     {
-      fprintf(stderr, "can't open file\n");
+      cout << "can't open file";
       exit(0);
     }
-    printf("Enter the account: ");
-    scanf("%d", &account);
+    cout << "Enter the account: ";
+    cin >> account;
     while (fread(&info, sizeof(struct person), 1, fp))
     {
       if (info.account == account)
       {
         found = 1;
-        printf("\t\tName: %s %s \n", info.fname, info.lname);
-        printf("\t\tAdress: %s\n", info.adress);
-        printf("\t\tCourse: %s\n", info.nominee);
-        printf("\t\taccount: %d\n", info.account);
-        printf("\t\tamount:%.2f\n", info.amount);
-        printf("\n");
+        cout << "\t\tName: " << info.fname << info.lname << endl;
+        cout << "\t\tAdress: " << info.adress << endl;
+        cout << "\t\tCourse: "<< info.nominee << endl;
+        cout << "\t\taccount:" << info.account << endl;
+        cout << "\t\tamount:" << info.amount << endl;
+        cout << endl;
       }
     }
     if (!found)
     {
-      printf("Student record not found\n");
+      cout << "Student record not found\n";
     }
 
     fclose(fp);
-    printf("Wana go back (y/n)");
-    scanf("%s", &another);
+    cout << "Wana go back (y/n)";
+    cin >> another;
   } while (another == 'n' || another == 'N');
 }
 
@@ -244,10 +243,10 @@ void display()
     fp = fopen("./bank.csv", "rb");
     system(clear);
 
-    printf("\t\t\t\t___STUDENTS RECORD___\n\n\n");
+    cout << "\t\t\t\t___STUDENTS RECORD___\n\n\n";
     if (fp == NULL)
     {
-      fprintf(stderr, "can't open file\n");
+      cout << "can't open file\n";
       exit(0);
     }
     else
@@ -277,18 +276,18 @@ void display()
 
     for (i = 0; i < num_data; i++)
     {
-      printf("\t\tName  : %s %s\n", data_array[i].fname, data_array[i].lname);
-      printf("\t\tAdress: %s\n", data_array[i].adress);
-      printf("\t\tCourse: %s\n", data_array[i].nominee);
-      printf("\t\taccount  : %d\n", data_array[i].account);
-      printf("\t\tamount  :%.2f\n", data_array[i].amount);
-      printf("\n");
+      cout << "\t\tName  : " << data_array[i].fname << data_array[i].lname << endl;
+      cout << "\t\tAdress : " << data_array[i].adress << endl;
+      cout << "\t\tCourse: " << data_array[i].nominee << endl;
+      cout << "\t\taccount :" << data_array[i].account << endl;
+      cout << "\t\tamount :" << data_array[i].amount << endl;
+      cout << "\n" << endl;
     }
 
     fclose(fp);
 
-    printf("Wana go back (y/n)");
-    scanf("%s", &another);
+    cout << "Wana go back (y/n)";
+    cin >> another;
   } while (another == 'n' || another == 'N');
 }
 
@@ -301,7 +300,7 @@ int main()
     cout << "\tBank Management System\n 1.Add New User\n 2.Update User Data\n 3.Delete User Record\n 4.Search User Data\n 5.Show All Users\n 6.Exit\n";
     
     printf("\nPlease select the option: ");
-    scanf("%d", &option);
+    cin >> option;
 
     switch (option)
     {
@@ -333,7 +332,7 @@ int main()
     case 6:
       exit(1);
     default:
-      printf("Please select the right option\n");
+      cout << "Please select the right option\n";
       break;
     }
   } while (option != 6);
