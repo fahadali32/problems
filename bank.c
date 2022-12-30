@@ -216,7 +216,7 @@ void search()
         found = 1;
         printf("\t\tName: %s %s \n", info.fname, info.lname);
         printf("\t\tAdress: %s\n", info.adress);
-        printf("\t\tCourse: %s\n", info.nominee);
+        printf("\t\tNominee: %s\n", info.nominee);
         printf("\t\taccount: %d\n", info.account);
         printf("\t\tamount:%.2f\n", info.amount);
         printf("\n");
@@ -360,7 +360,7 @@ void display()
     fp = fopen("./bank.csv", "rb");
     system(clear);
 
-    printf("\t\t\t\t___STUDENTS RECORD___\n\n\n");
+    printf("\t\t\t\t___USER RECORD___\n\n\n");
     if (fp == NULL)
     {
       fprintf(stderr, "can't open file\n");
@@ -395,9 +395,9 @@ void display()
     {
       printf("\t\tName  : %s %s\n", data_array[i].fname, data_array[i].lname);
       printf("\t\tAdress: %s\n", data_array[i].adress);
-      printf("\t\tCourse: %s\n", data_array[i].nominee);
-      printf("\t\taccount  : %d\n", data_array[i].account);
-      printf("\t\tamount  :%.2f\n", data_array[i].amount);
+      printf("\t\tNominee: %s\n", data_array[i].nominee);
+      printf("\t\tAccount  : %d\n", data_array[i].account);
+      printf("\t\tAmount  :%.2f\n", data_array[i].amount);
       printf("\n");
     }
 
