@@ -233,6 +233,122 @@ void search()
   } while (another == 'n' || another == 'N');
 }
 
+void deposit()
+{
+  FILE *fp, *fp1;
+  struct person info;
+  char another;
+  int account, found = 0;
+  do
+  {
+    system(clear);
+    fp = fopen("./bank.csv", "rb");
+    fp1 = fopen("./temp_bank.csv", "a");
+
+    if (fp == NULL)
+    {
+      fprintf(stderr, "can't open file\n");
+      exit(0);
+    }
+    printf("Enter the account: ");
+    scanf("%d", &account);
+    while (fread(&info, sizeof(struct person), 1, fp))
+    {
+      if (info.account != account)
+      {
+        fwrite(&info, sizeof(struct person), 1, fp1);
+      }
+      else
+      {
+        found = 1;
+      }
+    }
+
+    if (found == 1)
+    {
+      struct person up;
+      strcpy(up.fname,info.fname);
+      strcpy(up.lname,info.lname);
+      strcpy(up.adress,info.adress);
+      strcpy(up.nominee,info.nominee);
+      up.account = info.account;
+      printf("Enter the amount: ");
+      scanf("%f", &up.amount);
+      up.amount = info.amount+up.amount;
+      fwrite(&up, sizeof(struct person), 1, fp1);
+      remove("./bank.csv");
+      rename("./temp_bank.csv", "./bank.csv");
+      fclose(fp);
+      fclose(fp1);
+    }
+    else
+    {
+      printf("Record not found\n");
+    }
+
+
+    printf("Wana go back (y/n)");
+    scanf("%s", &another);
+  } while (another == 'n' || another == 'N');
+}
+void withdraw()
+{
+  FILE *fp, *fp1;
+  struct person info;
+  char another;
+  int account, found = 0;
+  do
+  {
+    system(clear);
+    fp = fopen("./bank.csv", "rb");
+    fp1 = fopen("./temp_bank.csv", "a");
+
+    if (fp == NULL)
+    {
+      fprintf(stderr, "can't open file\n");
+      exit(0);
+    }
+    printf("Enter the account: ");
+    scanf("%d", &account);
+    while (fread(&info, sizeof(struct person), 1, fp))
+    {
+      if (info.account != account)
+      {
+        fwrite(&info, sizeof(struct person), 1, fp1);
+      }
+      else
+      {
+        found = 1;
+      }
+    }
+
+    if (found == 1)
+    {
+      struct person up;
+      strcpy(up.fname,info.fname);
+      strcpy(up.lname,info.lname);
+      strcpy(up.adress,info.adress);
+      strcpy(up.nominee,info.nominee);
+      up.account = info.account;
+      printf("Enter the amount: ");
+      scanf("%f", &up.amount);
+      up.amount = info.amount-up.amount;
+      fwrite(&up, sizeof(struct person), 1, fp1);
+      remove("./bank.csv");
+      rename("./temp_bank.csv", "./bank.csv");
+      fclose(fp);
+      fclose(fp1);
+    }
+    else
+    {
+      printf("Record not found\n");
+    }
+
+
+    printf("Wana go back (y/n)");
+    scanf("%s", &another);
+  } while (another == 'n' || another == 'N');
+}
 void display()
 {
   char another;
@@ -305,7 +421,9 @@ int main()
         "3.Delete User Record\n"
         "4.Search User Data\n"
         "5.Show All Users\n"
-        "6.Exit\n";
+        "6.Deposit\n"
+        "7.Withdraw\n"
+        "8.Exit\n";
     printf("%s", message);
 
     printf("\nPlease select the option: ");
@@ -339,12 +457,21 @@ int main()
       system(clear);
       break;
     case 6:
+      system(clear);
+      deposit();
+      system(clear);
+      break;
+    case 7:
+      system(clear);
+      withdraw();
+      system(clear);
+    case 8:
       exit(1);
     default:
       printf("Please select the right option\n");
       break;
     }
-  } while (option != 6);
+  } while (option != 8);
 
   return 0;
 }
