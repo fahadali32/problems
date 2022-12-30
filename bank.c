@@ -60,7 +60,7 @@ void addUser()
       printf("Record stored successfuly\n");
     }
 
-    printf("Add another student (y/n)");
+    printf("Add another user (y/n)");
     scanf("%s", &another);
   } while (another == 'y' || another == 'Y');
 }
@@ -171,7 +171,7 @@ void deleteUser()
 
     if (found == 1)
     {
-      printf("Student record not found\n");
+      printf("User record not found\n");
     }
     else if (found == -1)
     {
@@ -224,7 +224,7 @@ void search()
     }
     if (!found)
     {
-      printf("Student record not found\n");
+      printf("User record not found\n");
     }
 
     fclose(fp);
