@@ -291,6 +291,7 @@ void deposit()
     scanf("%s", &another);
   } while (another == 'n' || another == 'N');
 }
+
 void withdraw()
 {
   FILE *fp, *fp1;
@@ -349,6 +350,7 @@ void withdraw()
     scanf("%s", &another);
   } while (another == 'n' || another == 'N');
 }
+
 void display()
 {
   char another;
@@ -465,6 +467,7 @@ int main()
       system(clear);
       withdraw();
       system(clear);
+      break;
     case 8:
       exit(1);
     default:
